@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar AI w showroomie – case study | Łukasz Trzaska</title>
+<meta name="description" content="Case study: interaktywny avatar AI w showroomie producenta materacy – od pomysłu, przez negocjacje z klientem, po wdrożenie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3A5F; --blue:#3E6E9E; --ink:#1d2430; --muted:#5f6d7d;
+    --line:#dfe5ec; --soft:#f3f6f9; --bg:#fbfcfd; --accent:#c8a96a;
+    --serif:'Lora',Georgia,serif; --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:var(--serif);color:var(--navy);line-height:1.2}
+  h2{font-size:1.75rem;margin-bottom:18px}
+  h3{font-size:1.1rem;margin-bottom:6px}
+  p+p{margin-top:12px}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+
+  /* top bar */
+  .top{border-bottom:1px solid var(--line);background:#fff}
+  .top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:14px;padding-bottom:14px}
+  .brand{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:1.05rem;text-decoration:none}
+  .top a.contact{font-size:.9rem;color:var(--blue);text-decoration:none;font-weight:500}
+  .top a.contact:hover{text-decoration:underline}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,#16304f 0%,#1F3A5F 55%,#2b507d 100%);color:#fff;padding:72px 0 64px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(200,169,106,.28),rgba(200,169,106,0) 70%)}
+  .hero .eyebrow{color:#c9d8ea}
+  .hero h1{color:#fff;font-size:clamp(2rem,5vw,3rem);margin:14px 0 18px;max-width:720px}
+  .hero p.lead{font-size:1.15rem;color:#dbe5f1;max-width:640px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+  .tag{font-size:.8rem;font-weight:500;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff}
+  .tag.status{background:var(--accent);border-color:var(--accent);color:#1d2430;font-weight:600}
+
+  /* facts */
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:-36px;position:relative;z-index:2;box-shadow:0 10px 30px rgba(31,58,95,.08)}
+  .fact{background:#fff;padding:20px 18px}
+  .fact b{display:block;font-family:var(--serif);font-size:1.6rem;color:var(--navy);line-height:1.1}
+  .fact span{font-size:.85rem;color:var(--muted)}
+
+  section{padding:64px 0 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+  .card p{color:#3a4554;font-size:.98rem}
+
+  /* flow diagram */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:8px;counter-reset:step}
+  .node{background:#fff;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:12px;padding:16px 14px;position:relative}
+  .node:last-child{border-top-color:var(--accent)}
+  .node small{display:block;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  .node b{display:block;font-size:.95rem;color:var(--navy);margin-bottom:4px}
+  .node p{font-size:.82rem;color:var(--muted);line-height:1.5}
+  .node:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);color:var(--blue);font-weight:700;z-index:1}
+  .note{margin-top:20px;padding:18px 20px;border-left:4px solid var(--accent);background:#fff;border-radius:0 12px 12px 0;font-size:.98rem;color:#3a4554}
+  .note strong{color:var(--navy)}
+
+  /* timeline */
+  .timeline{list-style:none;position:relative;margin-left:8px}
+  .timeline::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .timeline li{position:relative;padding:0 0 26px 48px}
+  .timeline li::before{content:attr(data-n);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:.75rem;font-weight:600;display:grid;place-items:center}
+  .timeline li.now::before{background:var(--accent);color:#1d2430}
+  .timeline h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .timeline .pill{font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#f6efe0;color:#7a5c1e}
+  .timeline p{color:#3a4554;font-size:.97rem}
+
+  /* mapping */
+  .map{display:grid;gap:10px}
+  .row{display:grid;grid-template-columns:1fr 36px 1fr;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+  .row .a{font-size:.95rem;color:#3a4554}
+  .row .arrow{text-align:center;color:var(--accent);font-weight:700}
+  .row .b{font-size:.95rem;color:var(--navy);font-weight:600}
+  .maphead{display:grid;grid-template-columns:1fr 36px 1fr;padding:0 18px 4px}
+
+  footer{margin-top:72px;background:#fff;border-top:1px solid var(--line);padding:36px 0}
+  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-end}
+  footer .name{font-family:var(--serif);font-size:1.3rem;color:var(--navy);font-weight:700}
+  footer p{font-size:.92rem;color:var(--muted)}
+  footer a{color:var(--blue);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .small{font-size:.8rem;color:#8a96a3;margin-top:6px}
+
+  @media (max-width:760px){
+    body{font-size:16px}
+    .hero{padding:52px 0 60px}
+    .facts{grid-template-columns:1fr 1fr}
+    .two{grid-template-columns:1fr}
+    .flow{grid-template-columns:1fr}
+    .node:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-12px;transform:translate(50%,50%)}
+    .row,.maphead{grid-template-columns:1fr}
+    .row .arrow{display:none}
+    .row .b{margin-top:4px}
+    .maphead{display:none}
+    section{padding-top:52px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">Łukasz Trzaska</a>
+    <a class="contact" href="mailto:lukasztrzaska81@gmail.com">lukasztrzaska81@gmail.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Case study · od pomysłu do wdrożenia</div>
+    <h1>Rozmowa z avatarem AI w showroomie producenta materacy</h1>
+    <p class="lead">Interaktywna instalacja, w której klient zadaje pytanie głosem, a naturalnej wielkości avatar odpowiada mu z wielkoformatowej projekcji. Projekt współtworzyłem od pierwszego pomysłu, przez rozmowy z klientem, aż po trwające wdrożenie.</p>
+    <div class="tags">
+      <span class="tag status">Status: wdrożenie w toku</span>
+      <span class="tag">Sztuczna inteligencja</span>
+      <span class="tag">Speech-to-Text</span>
+      <span class="tag">Instalacja multimedialna</span>
+      <span class="tag">Produkt szyty na miarę</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="facts">
+    <div class="fact"><b>6 × 2,5 m</b><span>ściana projekcyjna</span></div>
+    <div class="fact"><b>2</b><span>projektory tworzące jeden obraz</span></div>
+    <div class="fact"><b>Strefy</b><span>konfigurowalne pola odbioru dźwięku</span></div>
+    <div class="fact"><b>Głos</b><span>naturalna rozmowa zamiast ekranu dotykowego</span></div>
+  </div>
+
+  <section>
+    <div class="eyebrow">Punkt wyjścia</div>
+    <h2>Potrzeba i rozwiązanie</h2>
+    <div class="two">
+      <div class="card">
+        <h3>Wyzwanie</h3>
+        <p>Lokalny producent i sprzedawca nowoczesnych materacy chciał wyróżnić swój showroom i w nowy sposób przekazywać klientom wiedzę o produktach.</p>
+        <p>Warunek był jeden: pełna kontrola nad tym, co „mówi” marka. Rozwiązanie AI nie mogło improwizować ani podawać nieprawdziwych informacji.</p>
+      </div>
+      <div class="card">
+        <h3>Rozwiązanie</h3>
+        <p>Avatar wyświetlany w naturalnej skali na ścianie showroomu, z którym można po prostu porozmawiać. Model AI zamienia mowę na tekst i rozpoznaje intencję pytania, a system odtwarza odpowiedni materiał wideo z odpowiedzią avatara.</p>
+        <p>Dzięki temu klient ma swobodną rozmowę, a firma ma przewidywalną i zatwierdzoną treść.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Architektura</div>
+    <h2>Jak to działa</h2>
+    <div class="flow">
+      <div class="node"><small>Krok 1</small><b>Pytanie klienta</b><p>Klient mówi naturalnie, bez przycisków i ekranów.</p></div>
+      <div class="node"><small>Krok 2</small><b>Mikrofon macierzowy</b><p>Shure MXA925 zbiera dźwięk tylko z wyznaczonych stref przed ścianą.</p></div>
+      <div class="node"><small>Krok 3</small><b>Speech-to-Text</b><p>Model AI zamienia wypowiedź na tekst.</p></div>
+      <div class="node"><small>Krok 4</small><b>Interpretacja</b><p>AI rozpoznaje intencję pytania i dobiera właściwą odpowiedź.</p></div>
+      <div class="node"><small>Krok 5</small><b>Odpowiedź avatara</b><p>Wideo z avatarem wyświetlane z dwóch projektorów na ścianie 6 × 2,5 m.</p></div>
+    </div>
+    <p class="note"><strong>Kluczowa decyzja projektowa:</strong> AI służy do <em>rozumienia</em> pytań, a nie do swobodnego generowania odpowiedzi. Treść tego, co mówi avatar, pozostaje pod kontrolą firmy. To łączy naturalność rozmowy z bezpieczeństwem marki.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Przebieg projektu</div>
+    <h2>Moja rola: od pomysłu do wdrożenia</h2>
+    <ol class="timeline">
+      <li data-n="1"><h3>Pomysł i koncepcja</h3><p>Współtworzenie idei produktu wspólnie z partnerem technologicznym: jak zamienić showroom w miejsce rozmowy, a nie tylko oglądania.</p></li>
+      <li data-n="2"><h3>Ocena wykonalności i dobór technologii</h3><p>Analiza możliwości modeli AI, sprzętu audio i projekcji; zaprojektowanie architektury z naciskiem na kontrolę treści.</p></li>
+      <li data-n="3"><h3>Rozmowy i negocjacje z klientem</h3><p>Przedstawienie koncepcji, dopasowanie rozwiązania do potrzeb firmy, ustalenie zakresu i warunków realizacji.</p></li>
+      <li data-n="4"><h3>Projekt i development</h3><p>Budowa aplikacji łączącej rozpoznawanie mowy, interpretację intencji i odtwarzanie odpowiedzi wideo.</p></li>
+      <li data-n="5" class="now"><h3>Wdrożenie w showroomie <span class="pill">w toku</span></h3><p>Integracja sprzętu (projektory, mikrofon macierzowy), konfiguracja stref odbioru dźwięku, testy w rzeczywistych warunkach.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow">Wnioski</div>
+    <h2>Co przenoszę do pracy brokera innowacji</h2>
+    <div class="map">
+      <div class="maphead"><span class="eyebrow">W tym projekcie</span><span></span><span class="eyebrow">W transferze technologii</span></div>
+      <div class="row"><span class="a">Rozpoznanie potrzeby klienta i rynku</span><span class="arrow">→</span><span class="b">Identyfikowanie odbiorców wyników badań</span></div>
+      <div class="row"><span class="a">Ocena wykonalności i dobór technologii</span><span class="arrow">→</span><span class="b">Ocena potencjału rynkowego rozwiązań</span></div>
+      <div class="row"><span class="a">Rozmowy i ustalanie warunków z klientem</span><span class="arrow">→</span><span class="b">Dobór ścieżki i negocjowanie komercjalizacji</span></div>
+      <div class="row"><span class="a">Łączenie partnera technologicznego, klienta i dostawców</span><span class="arrow">→</span><span class="b">Budowanie relacji nauka – biznes</span></div>
+      <div class="row"><span class="a">Tłumaczenie technologii na język korzyści</span><span class="arrow">→</span><span class="b">Promocja oferty technologicznej uczelni</span></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="name">Łukasz Trzaska</div>
+      <p>Antropolog kultury · Przedsiębiorca IT · Koordynator projektów</p>
+    </div>
+    <div>
+      <p><a href="mailto:lukasztrzaska81@gmail.com">lukasztrzaska81@gmail.com</a> · +48 730 193 158</p>
+      <p class="small">Nazwa klienta została pominięta z uwagi na poufność współpracy.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
